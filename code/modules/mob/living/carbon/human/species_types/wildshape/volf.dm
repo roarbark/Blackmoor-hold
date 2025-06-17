@@ -13,7 +13,7 @@
 		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 		src.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Scout' transformation
+		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
 		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
 
 		STASTR = 7
@@ -22,7 +22,7 @@
 		STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		W.real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
+		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
 
 // WOLF SPECIES DATUM //
 /datum/species/shapewolf
@@ -34,7 +34,6 @@
 		TRAIT_NOFALLDAMAGE1,
 		TRAIT_STEELHEARTED,
 		TRAIT_BREADY,
-		TRAIT_TOXIMMUNE,
 		TRAIT_ORGAN_EATER,
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
@@ -70,9 +69,6 @@
 		/datum/language/common,
 	)
 
-/datum/species/shapewolf/send_voice(mob/living/carbon/human/H)
-	playsound(get_turf(H), pick('sound/vo/mobs/wwolf/wolftalk1.ogg','sound/vo/mobs/wwolf/wolftalk2.ogg'), 100, TRUE, -1)
-
 /datum/species/shapewolf/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/vol.dmi'
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
@@ -86,6 +82,9 @@
 
 /datum/species/shapewolf/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
+	// These are to prevent common bloody overlays
+	H.remove_overlay(GLOVESLEEVE_LAYER)
+	H.remove_overlay(SHOESLEEVE_LAYER)
 	return TRUE
 
 /datum/species/shapewolf/random_name(gender,unique,lastname)
@@ -107,7 +106,7 @@
 	max_integrity = 150 //Leather base
 	item_flags = DROPDEL
 
-/obj/item/rogueweapon/wolf_claw
+/obj/item/rogueweapon/wolf_claw //Like a less defense dagger
 	name = "Volf Claw"
 	desc = ""
 	item_state = null
@@ -120,7 +119,6 @@
 	block_chance = 0
 	wdefense = 2
 	blade_dulling = DULLING_SHAFT_WOOD
-	armor_penetration = 10
 	associated_skill = /datum/skill/combat/unarmed
 	wlength = WLENGTH_NORMAL
 	wbalance = WBALANCE_NORMAL
@@ -133,10 +131,12 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL
+	experimental_inhand = FALSE
 
-/datum/intent/simple/volf
+/datum/intent/simple/volf //Like a less defense dagger
 	name = "claw"
-	icon_state = "inchop"
+	clickcd = 10
+	icon_state = "incut"
 	blade_class = BCLASS_CHOP
 	attack_verb = list("claws", "mauls", "eviscerates")
 	animname = "chop"

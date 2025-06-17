@@ -1,48 +1,45 @@
-/mob/living/carbon/human/species/wildshape/volf //The baseline and tracker of the wildshapes
-	name = "Volf"
-	race = /datum/species/shapewolf
+/mob/living/carbon/human/species/wildshape/cat //The sneaker of the wildshapes
+	name = "Cat"
+	race = /datum/species/shapecat
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
-	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
+	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/cat_skin
 	// Someone else balance this, I am here for code, not numbers
 
-/mob/living/carbon/human/species/wildshape/volf/gain_inherent_skills()
+/mob/living/carbon/human/species/wildshape/cat/gain_inherent_skills()
 	. = ..()
 	if(src.mind)
-		src.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/combat/wrestling, 1, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
 		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
-		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
+		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE) //Who's a sneaky fellow?
+		src.mind.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) //May as well be magical
+		src.mind.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 
-		src.STASTR = 7
-		src.STACON = 7
-		src.STAEND = 11
-		src.STASPD = 13
+		src.STASTR = 2
+		src.STACON = 2
+		src.STAEND = 4
+		src.STAPER = 14
+		src.STASPD = 18 //May be overtuned with dodge expert, but this thing is so fragile
 
-		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
+		AddSpell(new /obj/effect/proc_holder/spell/self/catclaws)
+		real_name = "Cat" //Stealthy transform, lets give it a try
 
-// WOLF SPECIES DATUM //
-/datum/species/shapewolf
-	name = "volf"
-	id = "shapewolf"
+// CAT SPECIES DATUM //
+/datum/species/shapecat
+	name = "cat"
+	id = "shapecat"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
-		TRAIT_STRONGBITE,
-		TRAIT_NOFALLDAMAGE1,
-		TRAIT_STEELHEARTED,
-		TRAIT_BREADY,
-		TRAIT_ORGAN_EATER,
+		TRAIT_NOFALLDAMAGE2,
 		TRAIT_WILD_EATER,
-		TRAIT_HARDDISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
-		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
-		TRAIT_LONGSTRIDER,
-		TRAIT_PERFECT_TRACKER //This should be the 'scout' form
+		TRAIT_HARDDISMEMBER, //Decapping wildshapes causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
+		TRAIT_DODGEEXPERT,
+		TRAIT_BRITTLE,
+		TRAIT_LEAPER
 	)
 	inherent_biotypes = MOB_HUMANOID
-	armor = 5
 	no_equip = list(SLOT_SHIRT, SLOT_HEAD, SLOT_WEAR_MASK, SLOT_ARMOR, SLOT_GLOVES, SLOT_SHOES, SLOT_PANTS, SLOT_CLOAK, SLOT_BELT, SLOT_BACK_R, SLOT_BACK_L, SLOT_S_STORE)
 	nojumpsuit = 1
 	sexes = 1
@@ -64,43 +61,41 @@
 		/datum/language/common,
 	)
 
-/datum/species/shapewolf/regenerate_icons(mob/living/carbon/human/H)
-	H.icon = 'icons/roguetown/mob/monster/vol.dmi'
+/datum/species/shapecat/regenerate_icons(mob/living/carbon/human/H)
+	H.icon = 'icons/mob/pets.dmi'
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
-	H.icon_state = "vv"
+	H.icon_state = "cat2"
 	H.update_damage_overlays()
 	return TRUE
 
-/datum/species/shapewolf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+/datum/species/shapecat/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
-/datum/species/shapewolf/update_damage_overlays(mob/living/carbon/human/H)
+/datum/species/shapecat/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
 	return TRUE
 
-// WOLF SPECIFIC ITEMS //
-/obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
+// CAT SPECIFIC ITEMS //
+/obj/item/clothing/suit/roguetown/armor/skin_armor/cat_skin
 	slot_flags = null
-	name = "volf's skin"
+	name = "cat's skin"
 	desc = ""
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	armor = ARMOR_LEATHER //It's literally a wolf, shouldn't be more than this
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
-	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 120 //Less than leather, it's full-body and foments hit and run
+	max_integrity = 5 //You get a single 'lucky' hit as a cat
 	item_flags = DROPDEL
 
-/datum/intent/simple/volf //Like a less defense dagger
+/datum/intent/simple/cat //Like a less defense dagger
 	name = "claw"
-	clickcd = 10
+	clickcd = 8
 	icon_state = "incut"
 	blade_class = BCLASS_CUT
-	attack_verb = list("claws", "mauls", "eviscerates")
+	attack_verb = list("claws", "cuts", "scratches")
 	animname = "cut"
 	hitsound = "genslash"
 	penfactor = 10
@@ -110,47 +105,46 @@
 	miss_sound = "bluntswoosh"
 	item_d_type = "slash"
 
-/obj/item/rogueweapon/wolf_claw //Like a less defense dagger
-	name = "Volf Claw"
+/obj/item/rogueweapon/cat_claw //Backscratcher
+	name = "Cat Claw"
 	desc = ""
 	item_state = null
 	lefthand_file = null
 	righthand_file = null
 	icon = 'icons/roguetown/weapons/32.dmi'
-	max_blade_int = 600
-	max_integrity = 600
-	force = 20
+	max_blade_int = 200
+	max_integrity = 200
+	force = 8 //Pitiful, literally less than a wooden stick or a thrown toy
 	block_chance = 0
-	wdefense = 2
-	blade_dulling = DULLING_SHAFT_WOOD
+	wdefense = 1
 	associated_skill = /datum/skill/combat/unarmed
-	wlength = WLENGTH_NORMAL
-	wbalance = WBALANCE_NORMAL
+	wlength = WLENGTH_SHORT
+	wbalance = WBALANCE_SWIFT
 	w_class = WEIGHT_CLASS_NORMAL
 	can_parry = TRUE //I just think this is cool as fuck, sue me
 	sharpness = IS_SHARP
 	parrysound = "bladedmedium"
 	swingsound = BLADEWOOSH_MED
-	possible_item_intents = list(/datum/intent/simple/volf)
+	possible_item_intents = list(/datum/intent/simple/cat)
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL
 	experimental_inhand = FALSE
 
-/obj/item/rogueweapon/wolf_claw/right
+/obj/item/rogueweapon/cat_claw/right
 	icon_state = "claw_r"
 
-/obj/item/rogueweapon/wolf_claw/left
+/obj/item/rogueweapon/cat_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/wolf_claw/Initialize()
+/obj/item/rogueweapon/cat_claw/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
 
-// WOLF SPELLS //
-/obj/effect/proc_holder/spell/self/wolfclaws
-	name = "Lupine Claws"
+// CAT SPELLS //
+/obj/effect/proc_holder/spell/self/catclaws
+	name = "Feline Claws"
 	desc = "!"
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
@@ -158,15 +152,15 @@
 	ignore_cockblock = TRUE
 	var/extended = FALSE
 
-/obj/effect/proc_holder/spell/self/wolfclaws/cast(mob/user = usr)
+/obj/effect/proc_holder/spell/self/catclaws/cast(mob/user = usr)
 	..()
-	var/obj/item/rogueweapon/wolf_claw/left/l
-	var/obj/item/rogueweapon/wolf_claw/right/r
+	var/obj/item/rogueweapon/cat_claw/left/l
+	var/obj/item/rogueweapon/cat_claw/right/r
 
 	l = user.get_active_held_item()
 	r = user.get_inactive_held_item()
 	if(extended)
-		if(istype(user.get_active_held_item(), /obj/item/rogueweapon/wolf_claw))
+		if(istype(user.get_active_held_item(), /obj/item/rogueweapon/cat_claw))
 			user.dropItemToGround(l, TRUE)
 			user.dropItemToGround(r, TRUE)
 			qdel(l)

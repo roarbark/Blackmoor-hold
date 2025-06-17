@@ -1,45 +1,42 @@
-/mob/living/carbon/human/species/wildshape/volf //The baseline and tracker of the wildshapes
-	name = "Volf"
-	race = /datum/species/shapewolf
+/mob/living/carbon/human/species/wildshape/saiga //The transport option for shapeshifters
+	name = "Saiga"
+	race = /datum/species/shapesaiga
 	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
-	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
+	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/saiga_skin
 	// Someone else balance this, I am here for code, not numbers
 
-/mob/living/carbon/human/species/wildshape/volf/gain_inherent_skills()
+//BUCKLING
+/mob/living/carbon/human/species/wildshape/saiga/buckle_mob(mob/living/target, force = TRUE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0)
+	. = ..(target, force, check_loc, lying_buckle, hands_needed, target_hands_needed)
+
+/mob/living/carbon/human/species/wildshape/saiga/gain_inherent_skills()
 	. = ..()
 	if(src.mind)
 		src.mind.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
-		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
+		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/misc/swimming, 4, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 5, TRUE)
 
-		src.STASTR = 7
-		src.STACON = 7
-		src.STAEND = 11
-		src.STASPD = 13
+		src.STASTR = 10
+		src.STACON = 13
+		src.STAEND = 16
+		src.STASPD = 14
 
-		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
+		AddSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
+		real_name = "Saiga ([stored_mob.real_name])" //So we don't get a random name
 
-// WOLF SPECIES DATUM //
-/datum/species/shapewolf
-	name = "volf"
-	id = "shapewolf"
+// SAIGA SPECIES DATUM //
+/datum/species/shapesaiga
+	name = "saiga"
+	id = "shapesaiga"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
-		TRAIT_STRONGBITE,
-		TRAIT_NOFALLDAMAGE1,
-		TRAIT_STEELHEARTED,
-		TRAIT_BREADY,
-		TRAIT_ORGAN_EATER,
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
 		TRAIT_LONGSTRIDER,
-		TRAIT_PERFECT_TRACKER //This should be the 'scout' form
+		TRAIT_PUSHIMMUNE
 	)
 	inherent_biotypes = MOB_HUMANOID
 	armor = 5
@@ -51,7 +48,7 @@
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
-		ORGAN_SLOT_EYES = /obj/item/organ/eyes/night_vision,
+		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
 		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
@@ -64,54 +61,53 @@
 		/datum/language/common,
 	)
 
-/datum/species/shapewolf/regenerate_icons(mob/living/carbon/human/H)
-	H.icon = 'icons/roguetown/mob/monster/vol.dmi'
+/datum/species/shapesaiga/regenerate_icons(mob/living/carbon/human/H)
+	H.icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	H.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
-	H.icon_state = "vv"
+	H.icon_state = "saiga"
 	H.update_damage_overlays()
 	return TRUE
 
-/datum/species/shapewolf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
+/datum/species/shapesaiga/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
-/datum/species/shapewolf/update_damage_overlays(mob/living/carbon/human/H)
+/datum/species/shapesaiga/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
 	return TRUE
 
-// WOLF SPECIFIC ITEMS //
-/obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
+// SAIGA SPECIFIC ITEMS //
+/obj/item/clothing/suit/roguetown/armor/skin_armor/saiga_skin
 	slot_flags = null
-	name = "volf's skin"
+	name = "saiga's skin"
 	desc = ""
 	icon_state = null
 	body_parts_covered = FULL_BODY
 	body_parts_inherent = FULL_BODY
-	armor = ARMOR_LEATHER //It's literally a wolf, shouldn't be more than this
-	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST)
+	armor = ARMOR_LEATHER //Saiga should be tankier
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT, BCLASS_TWIST, BCLASS_STAB)
 	blocksound = SOFTHIT
 	blade_dulling = DULLING_BASHCHOP
 	sewrepair = FALSE
-	max_integrity = 120 //Less than leather, it's full-body and foments hit and run
+	max_integrity = 150 //Same as leather
 	item_flags = DROPDEL
 
-/datum/intent/simple/volf //Like a less defense dagger
-	name = "claw"
-	clickcd = 10
-	icon_state = "incut"
+/datum/intent/simple/saiga //Like a less defense dagger
+	name = "hoof"
+	icon_state = "instrike"
 	blade_class = BCLASS_CUT
-	attack_verb = list("claws", "mauls", "eviscerates")
-	animname = "cut"
-	hitsound = "genslash"
-	penfactor = 10
+	attack_verb = list("hits", "mauls", "bashes")
+	animname = "strike"
+	hitsound = "punch_hard"
+	penfactor = BLUNT_DEFAULT_PENFACTOR
 	candodge = TRUE
 	canparry = TRUE
-	miss_text = "slashes the air!"
+	miss_text = "kicks the air!"
 	miss_sound = "bluntswoosh"
-	item_d_type = "slash"
+	item_d_type = "blunt"
 
-/obj/item/rogueweapon/wolf_claw //Like a less defense dagger
-	name = "Volf Claw"
+/obj/item/rogueweapon/saiga_hoof //Like a less defense dagger
+	name = "Saiga Hoof"
 	desc = ""
 	item_state = null
 	lefthand_file = null
@@ -119,7 +115,7 @@
 	icon = 'icons/roguetown/weapons/32.dmi'
 	max_blade_int = 600
 	max_integrity = 600
-	force = 20
+	force = 14
 	block_chance = 0
 	wdefense = 2
 	blade_dulling = DULLING_SHAFT_WOOD
@@ -128,29 +124,28 @@
 	wbalance = WBALANCE_NORMAL
 	w_class = WEIGHT_CLASS_NORMAL
 	can_parry = TRUE //I just think this is cool as fuck, sue me
-	sharpness = IS_SHARP
-	parrysound = "bladedmedium"
-	swingsound = BLADEWOOSH_MED
-	possible_item_intents = list(/datum/intent/simple/volf)
+	sharpness = FALSE
+	swingsound = BLUNTWOOSH_MED
+	possible_item_intents = list(/datum/intent/simple/saiga)
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)
 	item_flags = DROPDEL
 	experimental_inhand = FALSE
 
-/obj/item/rogueweapon/wolf_claw/right
+/obj/item/rogueweapon/saiga_hoof/right //Placeholders
 	icon_state = "claw_r"
 
-/obj/item/rogueweapon/wolf_claw/left
+/obj/item/rogueweapon/saiga_hoof/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/wolf_claw/Initialize()
+/obj/item/rogueweapon/saiga_hoof/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
 
-// WOLF SPELLS //
-/obj/effect/proc_holder/spell/self/wolfclaws
-	name = "Lupine Claws"
+// SAIGA SPELLS //
+/obj/effect/proc_holder/spell/self/saigahoofs
+	name = "Saiga Hoofs"
 	desc = "!"
 	overlay_state = "claws"
 	antimagic_allowed = TRUE
@@ -158,15 +153,15 @@
 	ignore_cockblock = TRUE
 	var/extended = FALSE
 
-/obj/effect/proc_holder/spell/self/wolfclaws/cast(mob/user = usr)
+/obj/effect/proc_holder/spell/self/saigahoofs/cast(mob/user = usr)
 	..()
-	var/obj/item/rogueweapon/wolf_claw/left/l
-	var/obj/item/rogueweapon/wolf_claw/right/r
+	var/obj/item/rogueweapon/saiga_hoof/left/l
+	var/obj/item/rogueweapon/saiga_hoof/right/r
 
 	l = user.get_active_held_item()
 	r = user.get_inactive_held_item()
 	if(extended)
-		if(istype(user.get_active_held_item(), /obj/item/rogueweapon/wolf_claw))
+		if(istype(user.get_active_held_item(), /obj/item/rogueweapon/saiga_hoof))
 			user.dropItemToGround(l, TRUE)
 			user.dropItemToGround(r, TRUE)
 			qdel(l)

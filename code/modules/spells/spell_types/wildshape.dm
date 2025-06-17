@@ -20,7 +20,9 @@
 
 
 	var/list/possible_shapes = list(
-		/mob/living/carbon/human/species/wildshape/volf
+		/mob/living/carbon/human/species/wildshape/volf,
+		/mob/living/carbon/human/species/wildshape/cat,
+		/mob/living/carbon/human/species/wildshape/saiga
 	)
 
 /obj/effect/proc_holder/spell/targeted/wildshape/cast(list/targets, mob/user = usr)
@@ -57,3 +59,11 @@
 
 		var/datum/devotion/C = new /datum/devotion(src, src.patron) //If we don't do this, Dendorites can't be clerics and they can't revert back to their true forms
 		C.grant_miracles(src, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MAJOR)	//Major regen as no matter the previous level, it gets reset on transform. More connection to dendor I guess? Can level up to T4.
+
+/mob/living/carbon/human/species/wildshape/update_inv_gloves() //Prevents weird blood overlays
+	remove_overlay(GLOVES_LAYER)
+	remove_overlay(GLOVESLEEVE_LAYER)
+
+/mob/living/carbon/human/species/wildshape/update_inv_shoes() //Prevents weird blood overlays
+	remove_overlay(SHOES_LAYER)
+	remove_overlay(SHOESLEEVE_LAYER)

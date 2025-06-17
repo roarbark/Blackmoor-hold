@@ -15,7 +15,7 @@
 	if(client)
 		SSdroning.play_area_sound(get_area(src), client)
 
-	src.fully_heal(FALSE) //If we don't do this, even a single cut will mean the player's real body will die in the void while they run around wildshaped
+	fully_heal(FALSE) //If we don't do this, even a single cut will mean the player's real body will die in the void while they run around wildshaped
 	
 	var/mob/living/carbon/human/species/wildshape/W = new shapepath(loc) //We crate a new mob for the wildshaping player to inhabit
 
@@ -45,7 +45,6 @@
 	invisibility = oldinv
 
 	W.gain_inherent_skills()
-	to_chat(src, span_userdanger("Dendor blesses me with the shape of a [W.real_name]!."))
 
 /mob/living/carbon/human/proc/wildshape_untransform(dead,gibbed)
 	if(!stored_mob)
@@ -77,12 +76,14 @@
 
 	if(istype(WA, /mob/living/carbon/human/species/wildshape/volf))
 		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
+	if(istype(WA, /mob/living/carbon/human/species/wildshape/cat))
+		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/catclaws)
+	if(istype(WA, /mob/living/carbon/human/species/wildshape/saiga))
+		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
 
 	W.regenerate_icons()
 
 	to_chat(W, span_userdanger("I return to my old form."))
-	playsound(W.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
-	W.spawn_gibs(FALSE)
 	W.Knockdown(30)
 	W.Stun(30)
 

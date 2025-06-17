@@ -18,31 +18,37 @@
 	clothes_req = FALSE
 	human_req = FALSE
 
-	die_with_shapeshifted_form =  FALSE
-	pick_again = TRUE
 
-
-	var/pick_again = null
 	var/list/possible_shapes = list(
 		/mob/living/carbon/human/species/wildshape/volf
 	)
 
 /obj/effect/proc_holder/spell/targeted/wildshape/cast(list/targets, mob/user = usr)
 	. = ..()
-	if(!istype(usr, /mob/living/carbon/human/species/wildshape)) //If we aren't a wildshaped species, we can use this
-		var/list/animal_list = list()
-		for(var/path in possible_shapes)
-			var/mob/living/carbon/human/species/wildshape/A = path
-			animal_list[initial(A.name)] = path
-		var/new_wildshape_type = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
-		usr.wildshape_transformation(new_wildshape_type)
+	for(var/mob/living/carbon/human/M in targets)
+		if(!istype(M, /mob/living/carbon/human/species/wildshape)) //If we aren't a wildshaped species, we can use this
+			var/list/animal_list = list()
+			
+			for(var/path in possible_shapes) //First pass for the names
+				var/mob/living/carbon/human/species/wildshape/A = path
+				animal_list[initial(A.name)] = path
 
-	else //If we are a wildshaped species, we simply un-transform
-		usr.wildshape_untransform()
+			var/new_wildshape_type = input(M, "Choose Your Animal Form!", "It's Morphing Time!", null) as null|anything in sortList(animal_list)
+
+			for(var/crecher in possible_shapes) //Second pass to fetch the mob type itself and send it on wildshape_transformation
+				var/mob/living/carbon/human/species/wildshape/B = crecher
+				if(new_wildshape_type == B.name)
+					M.wildshape_transformation(B)
+
+		else //If we are a wildshaped species, we simply un-transform
+			M.wildshape_untransform()
 
 	return
 
 // Mob itself
 /mob/living/carbon/human/species/wildshape
+	var/datum/language_holder/stored_language
+	var/list/stored_skills
+	var/list/stored_experience
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()

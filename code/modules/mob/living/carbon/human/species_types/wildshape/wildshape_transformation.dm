@@ -1,12 +1,12 @@
 /mob/living/carbon/human/species/wildshape/death(gibbed, nocutscene = FALSE)
 	werewolf_untransform(TRUE, gibbed)
 
-/mob/living/carbon/human/proc/wildshape_transformation(/mob/living/carbon/human/species/wildshape/W)
+/mob/living/carbon/human/proc/wildshape_transformation(shapepath)
 	if(!mind)
 		log_runtime("NO MIND ON [src.name] WHEN TRANSFORMING")
 	Paralyze(1, ignore_canstun = TRUE)
-	for(var/obj/item/W in src)
-		dropItemToGround(W)
+	for(var/obj/item/I in src)
+		dropItemToGround(I)
 	regenerate_icons()
 	icon = null
 	var/oldinv = invisibility
@@ -16,6 +16,8 @@
 		SSdroning.play_area_sound(get_area(src), client)
 
 	src.fully_heal(FALSE)
+	
+	var/mob/living/carbon/human/species/wildshape/W = new shapepath(loc)
 
 	W.set_patron(src.patron)
 	W.gender = gender

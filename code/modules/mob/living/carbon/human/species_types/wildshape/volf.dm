@@ -1,11 +1,9 @@
 /mob/living/carbon/human/species/wildshape/volf
+	name = "Volf"
 	race = /datum/species/shapewolf
-	footstep_type = FOOTSTEP_MOB_HEAVY
-	var/datum/language_holder/stored_language
-	var/list/stored_skills
-	var/list/stored_experience
+	footstep_type = FOOTSTEP_MOB_CLAW
 	ambushable = FALSE
-	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin(W)
+	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
 	// Someone else balance this, I am here for code, not numbers
 	STASTR = 8
 	STACON = 8
@@ -68,8 +66,6 @@
 		/datum/language/beast,
 		/datum/language/common,
 	)
-
-	AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
 
 /datum/species/shapewolf/send_voice(mob/living/carbon/human/H)
 	playsound(get_turf(H), pick('sound/vo/mobs/wwolf/wolftalk1.ogg','sound/vo/mobs/wwolf/wolftalk2.ogg'), 100, TRUE, -1)
@@ -149,13 +145,13 @@
 	miss_sound = "bluntwooshlarge"
 	item_d_type = "slash"
 
-/obj/item/rogueweapon/volf_claw/right
+/obj/item/rogueweapon/wolf_claw/right
 	icon_state = "claw_r"
 
-/obj/item/rogueweapon/volf_claw/left
+/obj/item/rogueweapon/wolf_claw/left
 	icon_state = "claw_l"
 
-/obj/item/rogueweapon/volf_claw/Initialize()
+/obj/item/rogueweapon/wolf_claw/Initialize()
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)

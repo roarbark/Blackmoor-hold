@@ -39,7 +39,11 @@
 	W.grant_language(/datum/language/beast)
 	W.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB)
 	W.update_a_intents()
+
+	ADD_TRAIT(src, TRAIT_NOSLEEP, TRAIT_GENERIC) //If we don't do this, the original body will fall asleep and snore on us
+
 	invisibility = oldinv
+
 	W.gain_inherent_skills()
 
 /mob/living/carbon/human/proc/wildshape_untransform(dead,gibbed)
@@ -55,6 +59,9 @@
 
 	var/mob/living/carbon/human/W = stored_mob
 	stored_mob = null
+
+	REMOVE_TRAIT(W, TRAIT_NOSLEEP, TRAIT_GENERIC)
+
 	if(dead)
 		W.death()
 
@@ -66,6 +73,9 @@
 	W.copy_known_languages_from(WA.stored_language)
 	W.mind.known_skills = WA.stored_skills.Copy()
 	W.mind.skill_experience = WA.stored_experience.Copy()
+
+	if(istype(WA, /mob/living/carbon/human/species/wildshape/volf))
+		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
 
 	W.regenerate_icons()
 

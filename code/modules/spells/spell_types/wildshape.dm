@@ -52,3 +52,8 @@
 	var/list/stored_experience
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
+	if(src.mind)
+		src.mind.adjust_skillrank(/datum/skill/magic/holy, 3, TRUE) //Any dendorite using this should be a holy magic user
+
+		var/datum/devotion/C = new /datum/devotion(src, src.patron) //If we don't do this, Dendorites can't be clerics and they can't revert back to their true forms
+		C.grant_miracles(src, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR)	//Minor regen, can level up to T4.

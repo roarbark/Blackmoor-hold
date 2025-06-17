@@ -5,10 +5,6 @@
 	ambushable = FALSE
 	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/wolf_skin
 	// Someone else balance this, I am here for code, not numbers
-	STASTR = 8
-	STACON = 8
-	STAEND = 12
-	STASPD = 12
 
 /mob/living/carbon/human/species/wildshape/volf/gain_inherent_skills()
 	. = ..()
@@ -17,7 +13,16 @@
 		src.mind.adjust_skillrank(/datum/skill/combat/unarmed, 4, TRUE)
 		src.mind.adjust_skillrank(/datum/skill/misc/swimming, 2, TRUE)
 		src.mind.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
+		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Scout' transformation
+		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
+
+		STASTR = 7
+		STACON = 7
+		STAEND = 11
+		STASPD = 13
+
+		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
+		W.real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
 
 // WOLF SPECIES DATUM //
 /datum/species/shapewolf
@@ -44,8 +49,6 @@
 	nojumpsuit = 1
 	sexes = 1
 	offset_features = list(OFFSET_HANDS = list(0,2), OFFSET_HANDS_F = list(0,2))
-	soundpack_m = /datum/voicepack/werewolf
-	soundpack_f = /datum/voicepack/werewolf
 	organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
 		ORGAN_SLOT_HEART = /obj/item/organ/heart,
@@ -166,7 +169,7 @@
 	ignore_cockblock = TRUE
 	var/extended = FALSE
 
-/obj/effect/proc_holder/spell/self/claws/cast(mob/user = usr)
+/obj/effect/proc_holder/spell/self/wolfclaws/cast(mob/user = usr)
 	..()
 	var/obj/item/rogueweapon/wolf_claw/left/l
 	var/obj/item/rogueweapon/wolf_claw/right/r

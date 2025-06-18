@@ -18,11 +18,12 @@
 
 		src.STASTR = 7
 		src.STACON = 7
-		src.STAEND = 11
+		src.STAPER = 12
 		src.STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
 		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
+		faction += "wolfs" // It IS a wolf
 
 // WOLF SPECIES DATUM //
 /datum/species/shapewolf
@@ -31,7 +32,6 @@
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
 		TRAIT_STRONGBITE,
-		TRAIT_NOFALLDAMAGE1,
 		TRAIT_STEELHEARTED,
 		TRAIT_BREADY,
 		TRAIT_ORGAN_EATER,

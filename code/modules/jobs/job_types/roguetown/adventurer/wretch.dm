@@ -52,8 +52,12 @@
 			bounty_total = rand(130, 200)
 		if("Harm towards lyfe")
 			bounty_total = rand(200, 350)
+			H.change_stat("intelligence", 1)
 		if("Horrific atrocities")
 			bounty_total = rand(350, 500) // Let's not make it TOO profitable
+			H.change_stat("endurance", 1)
+			H.change_stat("constitution", 1)
+			H.change_stat("intelligence", 1)
 	var/my_crime = input(H, "What is your crime?", "Crime") as text|null
 	if (!my_crime)
 		my_crime = "crimes against the Crown"

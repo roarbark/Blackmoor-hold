@@ -24,7 +24,7 @@
 		src.STASPD = 18 //May be overtuned with dodge expert, but this thing is so fragile
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/catclaws)
-		real_name = "Cat" //Stealthy transform, lets give it a try
+		real_name = "cat" //Stealthy transform, lets give it a try
 
 // CAT SPECIES DATUM //
 /datum/species/shapecat

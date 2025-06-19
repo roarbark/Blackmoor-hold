@@ -22,7 +22,8 @@
 	var/list/possible_shapes = list(
 		/mob/living/carbon/human/species/wildshape/volf,
 		/mob/living/carbon/human/species/wildshape/cat,
-		/mob/living/carbon/human/species/wildshape/saiga
+		/mob/living/carbon/human/species/wildshape/saiga,
+		/mob/living/carbon/human/species/wildshape/spider
 	)
 
 /obj/effect/proc_holder/spell/targeted/wildshape/cast(list/targets, mob/user = usr)
@@ -52,6 +53,7 @@
 	var/datum/language_holder/stored_language
 	var/list/stored_skills
 	var/list/stored_experience
+	var/list/stored_spells
 
 /mob/living/carbon/human/species/wildshape/proc/gain_inherent_skills()
 	if(src.mind)

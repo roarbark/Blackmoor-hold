@@ -106,6 +106,8 @@
 	miss_text = "kicks the air!"
 	miss_sound = "bluntswoosh"
 	item_d_type = "blunt"
+	swingdelay = 10
+	clickcd = 14
 
 /obj/item/rogueweapon/saiga_hoof //Like a less defense dagger
 	name = "Saiga Hoof"
@@ -116,7 +118,7 @@
 	icon = 'icons/roguetown/weapons/32.dmi'
 	max_blade_int = 600
 	max_integrity = 600
-	force = 14
+	force = 20
 	block_chance = 0
 	wdefense = 2
 	blade_dulling = DULLING_SHAFT_WOOD
@@ -126,6 +128,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	can_parry = TRUE //I just think this is cool as fuck, sue me
 	sharpness = FALSE
+	demolition_mod = 1.25
 	swingsound = BLUNTWOOSH_MED
 	possible_item_intents = list(/datum/intent/simple/saiga)
 	parrysound = list('sound/combat/parry/parrygen.ogg')

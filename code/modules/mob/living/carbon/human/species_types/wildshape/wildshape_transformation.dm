@@ -33,6 +33,7 @@
 	W.stored_language.copy_known_languages_from(src)
 	W.stored_skills = mind.known_skills.Copy()
 	W.stored_experience = mind.skill_experience.Copy()
+	W.stored_spells = mind.spell_list.Copy()
 	mind.transfer_to(W)
 	W.mind.known_skills = list()
 	W.mind.skill_experience = list()
@@ -74,12 +75,11 @@
 	W.mind.known_skills = WA.stored_skills.Copy()
 	W.mind.skill_experience = WA.stored_experience.Copy()
 
-	if(istype(WA, /mob/living/carbon/human/species/wildshape/volf))
-		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-	if(istype(WA, /mob/living/carbon/human/species/wildshape/cat))
-		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/catclaws)
-	if(istype(WA, /mob/living/carbon/human/species/wildshape/saiga))
-		W.RemoveSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
+	//Compares the list of spells we had before transformation with those we do now. If there are any that don't match, we remove them
+	for(var/obj/effect/proc_holder/spell/self/originspell in WA.stored_spells)
+		for(var/obj/effect/proc_holder/spell/self/wildspell in W.mind.spell_list)
+			if(wildspell != originspell)
+				W.RemoveSpell(wildspell)
 
 	W.regenerate_icons()
 

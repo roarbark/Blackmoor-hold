@@ -34,6 +34,7 @@
 	W.stored_skills = mind.known_skills.Copy()
 	W.stored_experience = mind.skill_experience.Copy()
 	W.stored_spells = mind.spell_list.Copy()
+	W.voice_color = voice_color
 	mind.transfer_to(W)
 	W.mind.known_skills = list()
 	W.mind.skill_experience = list()
@@ -84,7 +85,5 @@
 	W.regenerate_icons()
 
 	to_chat(W, span_userdanger("I return to my old form."))
-	W.Knockdown(30)
-	W.Stun(30)
 
 	qdel(src)

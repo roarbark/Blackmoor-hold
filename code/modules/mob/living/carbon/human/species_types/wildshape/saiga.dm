@@ -32,6 +32,7 @@
 	id = "shapesaiga"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
+		TRAIT_KNEESTINGER_IMMUNITY, //All of these are dendorite transformations, they are ALL blessed by dendor
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping wildshapes causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects when killed/stepping on shards.
@@ -51,7 +52,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
@@ -61,6 +62,9 @@
 		/datum/language/beast,
 		/datum/language/common,
 	)
+
+/datum/species/shapesaiga/send_voice(mob/living/carbon/human/H)
+	playsound(get_turf(H), pick('sound/vo/mobs/saiga/idle (1).ogg','sound/vo/mobs/saiga/idle (2).ogg','sound/vo/mobs/saiga/idle (3).ogg','sound/vo/mobs/saiga/idle (4).ogg','sound/vo/mobs/saiga/idle (5).ogg','sound/vo/mobs/saiga/idle (6).ogg','sound/vo/mobs/saiga/idle (7).ogg'), 100, TRUE, -1)
 
 /datum/species/shapesaiga/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/saiga.dmi'
@@ -110,7 +114,7 @@
 	clickcd = 14
 
 /obj/item/rogueweapon/saiga_hoof //Like a less defense dagger
-	name = "Saiga Hoof"
+	name = "saiga hoof"
 	desc = ""
 	item_state = null
 	lefthand_file = null
@@ -129,7 +133,7 @@
 	can_parry = TRUE //I just think this is cool as fuck, sue me
 	sharpness = FALSE
 	demolition_mod = 1.25
-	swingsound = BLUNTWOOSH_MED
+	swingsound = list('sound/vo/mobs/saiga/attack (1).ogg','sound/vo/mobs/saiga/attack (2).ogg')
 	possible_item_intents = list(/datum/intent/simple/saiga)
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)

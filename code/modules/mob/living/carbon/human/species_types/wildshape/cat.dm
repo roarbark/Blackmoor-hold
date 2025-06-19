@@ -22,6 +22,7 @@
 		src.STAEND = 4
 		src.STAPER = 14
 		src.STASPD = 18 //May be overtuned with dodge expert, but this thing is so fragile
+		src.STALUC = 12 //Xylyx's critters
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/catclaws)
 		real_name = "cat" //Stealthy transform, lets give it a try
@@ -32,7 +33,8 @@
 	id = "shapecat"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
-		TRAIT_NOFALLDAMAGE2,
+		TRAIT_KNEESTINGER_IMMUNITY, //All of these are dendorite transformations, they are ALL blessed by dendor
+		TRAIT_NOFALLDAMAGE2, //Cats, what else can I say?
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping wildshapes causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_DODGEEXPERT,
@@ -50,7 +52,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/night_vision,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
@@ -87,7 +89,7 @@
 	armor = ARMOR_LEATHER
 	blocksound = SOFTHIT
 	sewrepair = FALSE
-	max_integrity = 5 //You get a single 'lucky' hit as a cat
+	max_integrity = 1 //You get a single 'lucky' hit as a cat
 	item_flags = DROPDEL
 
 /datum/intent/simple/cat //Like a less defense dagger
@@ -106,7 +108,7 @@
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/cat_claw //Backscratcher
-	name = "Cat Claw"
+	name = "cat claw"
 	desc = ""
 	item_state = null
 	lefthand_file = null

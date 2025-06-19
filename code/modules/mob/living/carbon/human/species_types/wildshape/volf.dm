@@ -31,9 +31,10 @@
 	id = "shapewolf"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
+		TRAIT_KNEESTINGER_IMMUNITY, //All of these are dendorite transformations, they are ALL blessed by dendor
 		TRAIT_STRONGBITE,
 		TRAIT_STEELHEARTED,
-		TRAIT_BREADY,
+		TRAIT_BREADY, //Ambusher
 		TRAIT_ORGAN_EATER,
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping Volfs causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
@@ -53,7 +54,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/night_vision,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
@@ -63,6 +64,9 @@
 		/datum/language/beast,
 		/datum/language/common,
 	)
+
+/datum/species/shapewolf/send_voice(mob/living/carbon/human/H)
+	playsound(get_turf(H), pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/idle (3).ogg'), 80, TRUE, -1)
 
 /datum/species/shapewolf/regenerate_icons(mob/living/carbon/human/H)
 	H.icon = 'icons/roguetown/mob/monster/vol.dmi'
@@ -111,7 +115,7 @@
 	item_d_type = "slash"
 
 /obj/item/rogueweapon/wolf_claw //Like a less defense dagger
-	name = "Volf Claw"
+	name = "volf claw"
 	desc = ""
 	item_state = null
 	lefthand_file = null
@@ -130,7 +134,7 @@
 	can_parry = TRUE //I just think this is cool as fuck, sue me
 	sharpness = IS_SHARP
 	parrysound = "bladedmedium"
-	swingsound = BLADEWOOSH_MED
+	swingsound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	possible_item_intents = list(/datum/intent/simple/volf)
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	embedding = list("embedded_pain_multiplier" = 0, "embed_chance" = 0, "embedded_fall_chance" = 0)

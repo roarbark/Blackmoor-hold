@@ -34,13 +34,14 @@
 	id = "shapespider"
 	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES)
 	inherent_traits = list(
+		TRAIT_KNEESTINGER_IMMUNITY, //All of these are dendorite transformations, they are ALL blessed by dendor
 		TRAIT_STRONGBITE,
 		TRAIT_NOFALLDAMAGE1,
 		TRAIT_WILD_EATER,
 		TRAIT_HARDDISMEMBER, //Decapping wildshapes causes them to bug out, badly, and need admin intervention to fix. Bandaid fix.
 		TRAIT_LEAPER,
 		TRAIT_WEBWALK, //This IS a spider
-		TRAIT_BREADY,
+		TRAIT_BREADY, //Ambusher
 		TRAIT_ORGAN_EATER,
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects when killed/stepping on shards, also 8 legs.
 		TRAIT_LONGSTRIDER
@@ -56,7 +57,7 @@
 		ORGAN_SLOT_LUNGS = /obj/item/organ/lungs,
 		ORGAN_SLOT_EYES = /obj/item/organ/eyes/night_vision,
 		ORGAN_SLOT_EARS = /obj/item/organ/ears,
-		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue,
+		ORGAN_SLOT_TONGUE = /obj/item/organ/tongue/wild_tongue,
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
@@ -115,7 +116,7 @@
 	item_d_type = "stab"
 
 /obj/item/rogueweapon/spider_fang
-	name = "Spider's Fang"
+	name = "spider fang"
 	desc = ""
 	item_state = null
 	lefthand_file = null

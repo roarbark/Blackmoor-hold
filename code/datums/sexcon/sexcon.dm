@@ -428,9 +428,13 @@
 			do_until_finished = !do_until_finished
 		if("set_arousal")
 			var/amount = input(user, "Value above 120 will immediately cause orgasm!", "Set Arousal", arousal) as num
-			set_arousal(amount)
+			if(aphrodisiac > 1 && amount > 0)
+				set_arousal(arousal + (amount * aphrodisiac))
+			else
+				set_arousal(arousal + amount)
 		if("freeze_arousal")
-			arousal_frozen = !arousal_frozen
+			if(aphrodisiac == 1)
+				arousal_frozen = !arousal_frozen
 	show_ui()
 
 /datum/sex_controller/proc/try_stop_current_action()

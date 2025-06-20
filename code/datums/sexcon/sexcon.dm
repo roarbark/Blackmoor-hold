@@ -319,7 +319,6 @@
 			else
 				if(prob(3))
 					ejaculate()
-	if(current_action) // Don't passively ejaculate if currently performing a specific sex action
 		return
 	if(arousal < PASSIVE_EJAC_THRESHOLD)
 		return

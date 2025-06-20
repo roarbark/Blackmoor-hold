@@ -653,6 +653,7 @@
 #include "code\datums\sexcon\sex_action.dm"
 #include "code\datums\sexcon\sexcon.dm"
 #include "code\datums\sexcon\sexcon_helpers.dm"
+#include "code\datums\sexcon\sexcon_reagents.dm"
 #include "code\datums\sexcon\sex_actions\deviant\facesitting.dm"
 #include "code\datums\sexcon\sex_actions\deviant\footjob.dm"
 #include "code\datums\sexcon\sex_actions\deviant\force_thighjob.dm"
@@ -2339,5 +2340,4 @@
 #include "modular_hearthstone\code\modules\spells\roguetown\flagellant.dm"
 #include "modular_helmsguard\code\modules\mobs\farm\horse.dm"
 #include "modular_helmsguard\code\modules\mobs\farm\wraiths.dm"
-// END_INCLUDE
 

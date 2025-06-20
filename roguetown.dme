@@ -2340,4 +2340,4 @@
 #include "modular_hearthstone\code\modules\spells\roguetown\flagellant.dm"
 #include "modular_helmsguard\code\modules\mobs\farm\horse.dm"
 #include "modular_helmsguard\code\modules\mobs\farm\wraiths.dm"
-
+// END_INCLUDE

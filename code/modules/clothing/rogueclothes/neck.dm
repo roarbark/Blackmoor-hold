@@ -499,7 +499,7 @@
 	if(world.time > (current_time + 30 SECONDS))
 		return
 
-/obj/item/clothing/neck/roguetown/skullamulet
+/obj/item/clothing/neck/roguetown/psicross/skullamulet
 	name = "Skull Amulet"
 	desc = "Gold shaped into the form of a skull and strung into an amulet."
 	icon_state = "skullamulet"

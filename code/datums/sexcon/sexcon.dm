@@ -319,7 +319,6 @@
 			else
 				if(prob(3))
 					ejaculate()
-		return
 	if(arousal < PASSIVE_EJAC_THRESHOLD)
 		return
 	if(is_spent())

@@ -299,6 +299,28 @@
 	return TRUE
 
 /datum/sex_controller/proc/handle_passive_ejaculation()
+	var/mob/living/carbon/human/M = user
+	if(aphrodisiac > 1.5)
+		if(prob(5)) //Yeah.
+			try_do_moan(3, 0, 1, 0)
+		if(arousal < 70)
+			adjust_arousal(0.2)
+		if(M.handcuffed)
+			if(prob(8))
+				var/chaffepain = pick(10,10,10,10,20,20,30)
+				try_do_moan(3, chaffepain, 1, 0)
+				damage_from_pain(chaffepain)
+				try_do_pain_effect(chaffepain)
+				last_moan = 0
+				M.visible_message(("<span class='love_mid'>[M] squirms uncomfortably in [M.p_their()] restraints.</span>"), \
+					("<span class='love_extreme'>I feel [M.handcuffed] rub uncomfortably against my skin.</span>"))
+			if(arousal < ACTIVE_EJAC_THRESHOLD)
+				adjust_arousal(0.25)
+			else
+				if(prob(3))
+					ejaculate()
+	if(current_action) // Don't passively ejaculate if currently performing a specific sex action
+		return
 	if(arousal < PASSIVE_EJAC_THRESHOLD)
 		return
 	if(is_spent())

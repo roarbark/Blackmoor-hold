@@ -76,14 +76,14 @@
 							icon_state = "astrata_chalky"
 		if("Divine Conflagration") // User selects Divine Conflagration, begins the ritual
 			if(do_after(user, 50)) // just flavor stuff before activation
-				user.say("I beseech the Radiant Mother of the Sun!!")
+				user.say("RADIANT MOTHER, HEAR MY PRAYER AND GRANT ME YOUR DIVINE WRATH!")
 				if(do_after(user, 50))
-					user.say("To bring Your purifying flame to all!!")
+					user.say("LET YOUR SACRED FIRE RAIN DOWN AND CLEANSE THE UNWORTHY!")
 					if(do_after(user, 50))
-						user.say("Let Your divine fire cleanse this place!!")
+						user.say("MAY ALL BE CONSUMED IN THIS DIVINE CONFLAGRATION!")
 						to_chat(user,span_danger("You feel Astrata's divine fire building within you, ready to burst forth and purify all around you...")) // A bunch of flavor stuff, slow incanting.
 						icon_state = "astrata_active"
-						loc.visible_message(span_warning("[user] begins to glow with an intense golden light! The air around them shimmers with heat!"))
+						loc.visible_message(span_danger("[user] roars to the heavens as their body erupts in a blinding, golden light! An oppressive, suffocating heat washes over the area!"))
 						playsound(loc, 'sound/magic/holyshield.ogg', 100, FALSE, -1)
 						user.flash_fullscreen("yellowflash")
 						divineconflagration(src) // Actually starts the proc for applying the buff

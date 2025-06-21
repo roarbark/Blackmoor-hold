@@ -7,6 +7,7 @@
 	density = FALSE
 	anchored = TRUE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	var/bypass_cooldown = FALSE // If TRUE, this ritual ignores and does not cause the ritesexpended cooldown.
 
 /obj/structure/ritualcircle/attack_right(mob/living/carbon/human/user)
 	user.visible_message(span_warning("[user] begins wiping away the rune"))
@@ -21,17 +22,23 @@
 	desc = "A Holy Rune of Astrata" // description on examine
 	var/solarrites = list("Guiding Light", "Solar Embrace", "Divine Conflagration") // This is important - This is the var which stores every ritual option available to a ritualist - Ideally, we'd have like, 3 for each God. Right now, just 1.
 
-/obj/structure/ritualcircle/astrata/attack_hand(mob/living/user) 
+/obj/structure/ritualcircle/astrata/attack_hand(mob/living/user)
 	if((user.patron?.type) != /datum/patron/divine/astrata)
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this...")) // You need ritualist to use them
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
-		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more.")) // If you have already done a ritual in the last 30 minutes, you cannot do another.
-		return
+	
 	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use a open hand on a rune, It'll give you a selection of all the rites available from that rune
+	if(!riteselection)
+		return
+
+	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+		if(riteselection != "Guiding Light" && riteselection != "Solar Embrace")
+			to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
+			return
+
 	switch(riteselection) // rite selection goes in this section, try to do something fluffy. Presentation is most important here, truthfully.
 		if("Guiding Light") // User selects Guiding Light, begins the stuff for it
 			if(do_after(user, 50)) // just flavor stuff before activation
@@ -50,7 +57,6 @@
 							user.flash_fullscreen("redflash3")
 							user.emote("firescream")
 						guidinglight(src) // Actually starts the proc for applying the buff
-						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
 							icon_state = "astrata_chalky"
 		if("Solar Embrace") // User selects Solar Embrace, begins the ritual
@@ -66,7 +72,6 @@
 						playsound(loc, 'sound/magic/holyshield.ogg', 100, FALSE, -1)
 						user.flash_fullscreen("yellowflash")
 						solarembrace(src) // Actually starts the proc for applying the buff
-						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
 							icon_state = "astrata_chalky"
 		if("Divine Conflagration") // User selects Divine Conflagration, begins the ritual
@@ -123,7 +128,7 @@
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of the Moon", src) as null|anything in lunarrites
@@ -138,7 +143,8 @@
 						to_chat(user,span_cultsmall("The waning half of the Twin-God carries but one eye. With some effort, it can be drawn upon supplicants."))
 						playsound(loc, 'sound/magic/holyshield.ogg', 80, FALSE, -1)
 						moonlightdance(src)
-						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						if(!bypass_cooldown)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 
 /obj/structure/ritualcircle/noc/proc/moonlightdance(src)
 	var/ritualtargets = view(7, loc)
@@ -167,7 +173,7 @@
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Plague", src) as null|anything in plaguerites
@@ -187,7 +193,8 @@
 							loc.visible_message(span_warning("[user] opens their mouth, disgorging a great swarm of flies!"))
 							playsound(loc, 'sound/misc/fliesloop.ogg', 100, FALSE, -1)
 							flylordstriage(src)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							spawn(120)
 								icon_state = "pestra_chalky"
 
@@ -215,7 +222,7 @@
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Beasts", src) as null|anything in bestialrites
@@ -235,7 +242,8 @@
 							loc.visible_message(span_warning("[user] snaps their head upward, they let out a howl!"))
 							playsound(loc, 'sound/vo/mobs/wwolf/howl (2).ogg', 100, FALSE, -1)
 							lesserwolf(src)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							spawn(120)
 								icon_state = "dendor_chalky"
 
@@ -258,7 +266,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Creation", src) as null|anything in forgerites
@@ -277,7 +285,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 							loc.visible_message(span_warning("A wave of heat rushes out from the ritual circle before [user]. The metal is reforged in a flash of light!"))
 							playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
 							holyreforge(src)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							spawn(120)
 								icon_state = "malum_chalky"
 
@@ -309,7 +318,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in deathrites
@@ -330,7 +339,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to strike a bargain for these souls...."))
 						playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
 						undermaidenbargain(src)
-						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						if(!bypass_cooldown)
+							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
 							icon_state = "necra_chalky"
 
@@ -354,7 +364,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Love", src) as null|anything in peacerites
@@ -369,7 +379,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						if(do_after(user, 50))
 							icon_state = "eora_active"
 							pacify(src)
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							spawn(120)
 								icon_state = "eora_chalky"
 
@@ -396,7 +407,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Progress", src) as null|anything in zizorites
@@ -410,7 +421,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						user.say("ZIZO! ZIZO! ARMS TO SLAY THE IGNORANT!!")
 						if(do_after(user, 50))
 							icon_state = "zizo_active"
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							zizoarmaments(src)
 							spawn(120)
 								icon_state = "zizo_chalky"
@@ -469,7 +481,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Transaction", src) as null|anything in matthiosrites
@@ -483,7 +495,8 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						user.say("Arms to claim, Arms to take!!")
 						if(do_after(user, 50))
 							icon_state = "matthios_active"
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							matthiosarmaments(src)
 							spawn(120)
 								icon_state = "matthios_chalky"
@@ -540,7 +553,7 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
 		to_chat(user,span_smallred("I don't know the proper rites for this..."))
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
+	if(!bypass_cooldown && user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_smallred("I have performed enough rituals for the day... I must rest before communing more."))
 		return
 	var/riteselection = input(user, "Rituals of Violence", src) as null|anything in graggarrites
@@ -554,10 +567,11 @@ var/forgerites = list("Ritual of Blessed Reforgance")
 						user.say("A slaughter awaits!!")
 						if(do_after(user, 50))
 							//icon_state = "graggar_active" when we have one
-							user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+							if(!bypass_cooldown)
+								user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 							graggararmor(src)
 							//spawn(120)
-								//icon_state = "graggar_chalky" 
+								//icon_state = "graggar_chalky"
 
 /obj/structure/ritualcircle/graggar/proc/graggararmor(src)
 	var/onrune = view(0, loc)

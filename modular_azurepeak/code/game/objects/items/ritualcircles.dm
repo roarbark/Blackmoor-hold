@@ -99,7 +99,7 @@
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
 
 /obj/structure/ritualcircle/astrata/proc/solarembrace(src)
-	var/ritualtargets = view(1, loc) // Range of 1 from the source, only affects the ritualist
+	var/ritualtargets = view(7, loc) // Range of 7 from the source, affects everyone in range
 	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as the ritualist
 		target.apply_status_effect(/datum/status_effect/buff/solar_embrace) // applies the status effect
 		to_chat(target,span_cultsmall("Astrata's divine fire flows through me! I am one with Her sacred flame!"))

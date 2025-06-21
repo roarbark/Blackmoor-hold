@@ -310,14 +310,6 @@
 	if(required_status && (status != required_status))
 		return FALSE
 	
-	if(burn > 0 && owner && HAS_TRAIT(owner, TRAIT_FIRE_HEALING))
-		var/datum/status_effect/buff/solar_embrace/solar_effect = owner.has_status_effect(/datum/status_effect/buff/solar_embrace)
-		if(solar_effect)
-			solar_effect.heal_most_damaged_limb(burn)
-			return TRUE // We've handled the "damage" as healing, so we stop here.
-		else // Fallback for other potential fire healing traits, just negate damage.
-			burn = -burn 
-
 	var/dmg_mlt = CONFIG_GET(number/damage_multiplier) * hit_percent
 	brute = round(max(brute * dmg_mlt, 0),DAMAGE_PRECISION)
 	burn = round(max(burn * dmg_mlt, 0),DAMAGE_PRECISION)

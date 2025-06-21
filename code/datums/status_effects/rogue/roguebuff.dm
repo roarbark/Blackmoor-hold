@@ -933,7 +933,7 @@
 /datum/status_effect/buff/solar_embrace
 	id = "solar_embrace"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/solar_embrace
-	duration = 5 MINUTES
+	duration = 1.5 MINUTES
 	status_type = STATUS_EFFECT_REPLACE
 
 /datum/status_effect/buff/solar_embrace/on_apply()
@@ -962,8 +962,20 @@
 			most_damaged = BP
 	
 	if(most_damaged && max_damage > 0)
-		// Heal the most damaged limb
-		most_damaged.heal_damage(0, amount, 0, BODYPART_ORGANIC, TRUE)
+		var/amount_to_heal = amount
+		// Prioritize healing burn damage first
+		var/burn_healed = min(amount_to_heal, most_damaged.burn_dam)
+		if(burn_healed > 0)
+			most_damaged.heal_damage(0, burn_healed, 0, BODYPART_ORGANIC, FALSE)
+			amount_to_heal -= burn_healed
+		
+		// Heal brute damage with any remaining healing
+		if(amount_to_heal > 0)
+			var/brute_healed = min(amount_to_heal, most_damaged.brute_dam)
+			if(brute_healed > 0)
+				most_damaged.heal_damage(brute_healed, 0, 0, BODYPART_ORGANIC, FALSE)
+
+		H.updatehealth()
 		H.update_damage_overlays()
 		to_chat(H, span_green("Astrata's divine fire heals my [most_damaged.name]!"))
 		playsound(H, 'sound/magic/heal.ogg', 50, FALSE, -1)

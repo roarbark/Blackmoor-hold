@@ -83,7 +83,9 @@
 		var/datum/status_effect/buff/solar_embrace/solar_effect = src.has_status_effect(/datum/status_effect/buff/solar_embrace)
 		if(solar_effect)
 			solar_effect.heal_most_damaged_limb(amount)
-		return amount
+			return amount
+		amount = -amount // Fallback for other fire healing traits
+
 	if(amount > 0)
 		take_overall_damage(0, amount, 0, updating_health, required_status)
 	else
@@ -272,3 +274,21 @@
 	if(update)
 		update_damage_overlays()
 	update_stamina()
+
+/mob/living/carbon/fire_act(datum/source, burn_dam, tox_dam, damage_type = BURN)
+	if(status_flags & GODMODE)
+		return
+	if(!HAS_TRAIT(src, TRAIT_NOFIRE))
+		adjust_fire_stacks(burn_dam / 2) //a little extra fire
+		IgniteMob()
+	adjustToxLoss(tox_dam)
+
+	if(HAS_TRAIT(src, TRAIT_FIRE_HEALING))
+		var/datum/status_effect/buff/solar_embrace/solar_effect = src.has_status_effect(/datum/status_effect/buff/solar_embrace)
+		if(solar_effect)
+			solar_effect.heal_most_damaged_limb(burn_dam)
+			return
+
+	switch(damage_type)
+		if(BURN)
+			take_overall_damage(0, burn_dam)

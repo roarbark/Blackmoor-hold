@@ -19,7 +19,7 @@
 	name = "Rune of the Sun" // defines name of the circle itself
 	icon_state = "astrata_chalky" // the icon state, so, the sprite the runes use on the floor. As of making, we have 6, each needs an active/inactive state. 
 	desc = "A Holy Rune of Astrata" // description on examine
-	var/solarrites = list("Guiding Light") // This is important - This is the var which stores every ritual option available to a ritualist - Ideally, we'd have like, 3 for each God. Right now, just 1.
+	var/solarrites = list("Guiding Light", "Solar Embrace", "Divine Conflagration") // This is important - This is the var which stores every ritual option available to a ritualist - Ideally, we'd have like, 3 for each God. Right now, just 1.
 
 /obj/structure/ritualcircle/astrata/attack_hand(mob/living/user) 
 	if((user.patron?.type) != /datum/patron/divine/astrata)
@@ -53,6 +53,38 @@
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(120)
 							icon_state = "astrata_chalky"
+		if("Solar Embrace") // User selects Solar Embrace, begins the ritual
+			if(do_after(user, 50)) // just flavor stuff before activation
+				user.say("I beseech the Radiant Mother of the Sun!!")
+				if(do_after(user, 50))
+					user.say("To grant me Her sacred flame!!")
+					if(do_after(user, 50))
+						user.say("Let me be one with Your eternal warmth!!")
+						to_chat(user,span_danger("You feel Astrata's divine fire coursing through your veins. The flames that would harm others now bring you life...")) // A bunch of flavor stuff, slow incanting.
+						icon_state = "astrata_active"
+						loc.visible_message(span_warning("[user] is bathed in golden flames! The fire dances around them harmlessly!"))
+						playsound(loc, 'sound/magic/holyshield.ogg', 100, FALSE, -1)
+						user.flash_fullscreen("yellowflash")
+						solarembrace(src) // Actually starts the proc for applying the buff
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						spawn(120)
+							icon_state = "astrata_chalky"
+		if("Divine Conflagration") // User selects Divine Conflagration, begins the ritual
+			if(do_after(user, 50)) // just flavor stuff before activation
+				user.say("I beseech the Radiant Mother of the Sun!!")
+				if(do_after(user, 50))
+					user.say("To bring Your purifying flame to all!!")
+					if(do_after(user, 50))
+						user.say("Let Your divine fire cleanse this place!!")
+						to_chat(user,span_danger("You feel Astrata's divine fire building within you, ready to burst forth and purify all around you...")) // A bunch of flavor stuff, slow incanting.
+						icon_state = "astrata_active"
+						loc.visible_message(span_warning("[user] begins to glow with an intense golden light! The air around them shimmers with heat!"))
+						playsound(loc, 'sound/magic/holyshield.ogg', 100, FALSE, -1)
+						user.flash_fullscreen("yellowflash")
+						divineconflagration(src) // Actually starts the proc for applying the buff
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						spawn(120)
+							icon_state = "astrata_chalky"
 
 /obj/structure/ritualcircle/astrata/proc/guidinglight(src)
 	var/ritualtargets = view(7, loc) // Range of 7 from the source, which is the rune
@@ -60,6 +92,21 @@
 		target.apply_status_effect(/datum/status_effect/buff/guidinglight) // applies the status effect
 		to_chat(target,span_cultsmall("Astrata's light guides me forward, drawn to me by the Ritualist's pyre!"))
 		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
+
+/obj/structure/ritualcircle/astrata/proc/solarembrace(src)
+	var/ritualtargets = view(1, loc) // Range of 1 from the source, only affects the ritualist
+	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as the ritualist
+		target.apply_status_effect(/datum/status_effect/buff/solar_embrace) // applies the status effect
+		to_chat(target,span_cultsmall("Astrata's divine fire flows through me! I am one with Her sacred flame!"))
+		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
+
+/obj/structure/ritualcircle/astrata/proc/divineconflagration(src)
+	var/ritualtargets = view(7, loc) // Range of 7 from the source, affects everyone in range
+	for(var/mob/living/carbon/human/target in ritualtargets) // defines the target as everyone in range
+		target.apply_status_effect(/datum/status_effect/buff/divine_conflagration) // applies the status effect
+		to_chat(target,span_cultsmall("Astrata's divine fire burns you, purifying you with its holy power!"))
+		playsound(target, 'sound/magic/holyshield.ogg', 80, FALSE, -1) // Cool sound!
+
 // If you want to review a more complicated one, Undermaiden's Bargain is probs the most complicated of the starting set. - Have fun! - Onutsio 🏳️‍⚧️
 
 

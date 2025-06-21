@@ -283,7 +283,7 @@
 /datum/status_effect/debuff/ritesexpended
 	id = "ritesexpended"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/ritesexpended
-	duration = 30 MINUTES
+	duration = 1 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/ritesexpended
 	name = "Rites Complete"

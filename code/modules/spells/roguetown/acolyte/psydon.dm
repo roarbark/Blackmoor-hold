@@ -31,7 +31,7 @@
 		target.apply_status_effect(/datum/status_effect/elucidated)
 		target.playsound_local(target, pick(sounds), vol = 100, vary = FALSE)
 		if(alert(target, "Do you accept the Truth of PSYDON?", "JUDGEMENT", "Yes", "No") == "Yes")
-			target.patron = /datum/patron/old_god
+			target.set_patron(/datum/patron/old_god)
 		return TRUE
 	revert_cast()
 	return FALSE

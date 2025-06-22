@@ -5,8 +5,6 @@
 	if(!mind)
 		log_runtime("NO MIND ON [src.name] WHEN TRANSFORMING")
 	Paralyze(1, ignore_canstun = TRUE)
-	for(var/obj/item/I in src)
-		dropItemToGround(I)
 	regenerate_icons()
 	icon = null
 	var/oldinv = invisibility

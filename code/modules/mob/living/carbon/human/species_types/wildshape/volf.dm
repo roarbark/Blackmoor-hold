@@ -16,13 +16,13 @@
 		src.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
 		src.mind.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
 
-		src.STASTR = 7
-		src.STACON = 7
+		src.STASTR = 12
+		src.STACON = 11
 		src.STAPER = 12
 		src.STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/wolfclaws)
-		real_name = "Volf ([stored_mob.real_name])" //So we don't get a random name
+		real_name = "Volf" //So we don't get a random name
 		faction += "wolfs" // It IS a wolf
 
 // WOLF SPECIES DATUM //

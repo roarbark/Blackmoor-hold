@@ -25,7 +25,7 @@
 		AddSpell(new /obj/effect/proc_holder/spell/self/spiderfangs)
 		AddSpell(new /obj/effect/proc_holder/spell/self/createhoney)
 		AddSpell(new /obj/effect/proc_holder/spell/self/weaveweb)
-		real_name = "Beespider ([stored_mob.real_name])"
+		real_name = "Beespider"
 		faction += "spiders" // It IS a spider
 
 // CAT SPECIES DATUM //

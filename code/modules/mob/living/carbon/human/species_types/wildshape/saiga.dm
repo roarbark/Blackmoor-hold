@@ -24,7 +24,7 @@
 		src.STASPD = 13
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/saigahoofs)
-		real_name = "Saiga ([stored_mob.real_name])" //So we don't get a random name
+		real_name = "Saiga" //So we don't get a random name
 
 // SAIGA SPECIES DATUM //
 /datum/species/shapesaiga
@@ -132,7 +132,6 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	can_parry = TRUE //I just think this is cool as fuck, sue me
 	sharpness = FALSE
-	demolition_mod = 1.25
 	swingsound = list('sound/vo/mobs/saiga/attack (1).ogg','sound/vo/mobs/saiga/attack (2).ogg')
 	possible_item_intents = list(/datum/intent/simple/saiga)
 	parrysound = list('sound/combat/parry/parrygen.ogg')

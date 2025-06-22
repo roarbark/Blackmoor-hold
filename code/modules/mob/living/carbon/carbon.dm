@@ -104,10 +104,10 @@
 		mode() // Activate held item
 
 /mob/living/carbon/attackby(obj/item/I, mob/user, params)
-	// Special case for scissors with snip intent targeting the head or skull
 	if(istype(I, /obj/item/rogueweapon/huntingknife/scissors) && user.used_intent.type == /datum/intent/snip && (user.zone_selected == BODY_ZONE_HEAD || user.zone_selected == BODY_ZONE_PRECISE_SKULL))
 		return I.attack(src, user)
-		
+	if(istype(I, /obj/item/leash))
+		return I.attack(src, user)
 	if(!user.cmode)
 		var/try_to_fail = !istype(user.rmb_intent, /datum/rmb_intent/weak)
 		var/list/possible_steps = list()
@@ -455,7 +455,7 @@
 		return FALSE
 	visible_message("[cuff_break ? "<span class='danger'>" : "<span class='warning'>"][src] manages to [cuff_break ? "break" : "slip"] out of [I]!</span>")
 	if(cuff_break)
-		playsound(src, 'sound/misc/chain_snap.ogg', 100, FALSE, 10)
+		playsound(src, 'sound/misc/chain_snap.ogg', 100, FALSE)
 	to_chat(src, "<span class='notice'>I [cuff_break ? "break" : "slip"] out of [I]!</span>")
 
 	if(istype(I, /obj/item/net))

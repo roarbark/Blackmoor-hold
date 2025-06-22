@@ -7,13 +7,13 @@
 	range = -1
 	include_user = TRUE
 	releasedrain = 60
-	recharge_time = 30 SECONDS
+	recharge_time = 60 SECONDS
 	cooldown_min = 50
 	invocation = "Treefather grant me your form!"
 	invocation_type = "shout"
 	action_icon_state = "shapeshift"
 	associated_skill = /datum/skill/magic/holy
-	devotion_cost = 80
+	devotion_cost = 100
 	miracle = TRUE
 	clothes_req = FALSE
 	human_req = FALSE

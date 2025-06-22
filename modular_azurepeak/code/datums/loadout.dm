@@ -425,17 +425,21 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Amulet of Eora"
 	path = /obj/item/clothing/neck/roguetown/psicross/eora
 
+/datum/loadout_item/psicross/naledi
+	name = "Naledian Psy-Bracelet"
+	path = /obj/item/clothing/neck/roguetown/psicross/naledi
+
 /datum/loadout_item/chaperon
-    name = "Chaperon (Normal)"
-    path = /obj/item/clothing/head/roguetown/chaperon
+	name = "Chaperon (Normal)"
+	path = /obj/item/clothing/head/roguetown/chaperon
 
 /datum/loadout_item/chaperon/alt
-    name = "Chaperon (Alt)"
-    path = /obj/item/clothing/head/roguetown/chaperon/greyscale
+	name = "Chaperon (Alt)"
+	path = /obj/item/clothing/head/roguetown/chaperon/greyscale
 
 /datum/loadout_item/chaperon/burgher
-    name = "Noble's Chaperon"
-    path = /obj/item/clothing/head/roguetown/chaperon/noble
+	name = "Noble's Chaperon"
+	path = /obj/item/clothing/head/roguetown/chaperon/noble
 
 //Donator Section
 //All these items are stored in the donator_fluff.dm in the azure modular folder for simplicity.

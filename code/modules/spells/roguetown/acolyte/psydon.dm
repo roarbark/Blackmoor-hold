@@ -1,6 +1,6 @@
 // PSY'S TRUTH IS BLINDING
 
-/obj/effect/proc_holder/spell/self/divine_strike
+/obj/effect/proc_holder/spell/invoked/elucidate
 	name = "Elucidate"
 	desc = "The Agonizing Truth of the Martyr causes a temporary seizure of the senses."
 	recharge_time = 15 SECONDS

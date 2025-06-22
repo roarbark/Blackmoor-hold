@@ -25,8 +25,6 @@
 	)
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		if(target.anti_magic_check(TRUE, TRUE))
-			return FALSE
 		if(target.patron != /datum/patron/old_god) //We don't target our brothers
 			return FALSE
 		target.visible_message(span_warning("[user] elucidates [target]!"),span_warning("I HAVE BEEN ILLUMINATED!"))

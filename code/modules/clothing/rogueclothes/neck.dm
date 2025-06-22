@@ -271,10 +271,12 @@
 
 /obj/item/clothing/neck/roguetown/psicross/equipped(mob/living/carbon/human/user, slot) //Psydonians now get warm fuzzies when they equip their psycross.
 	. = ..()
-	if(istype(user.patron, /datum/patron/old_god))
-		user.add_stress(/datum/stressevent/psicross_worn)
-		ADD_TRAIT(user, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
-		ADD_TRAIT(user,TRAIT_ZOMBIE_IMMUNE, MAGIC_TRAIT)
+	if(slot == SLOT_NECK || slot == SLOT_WRISTS)
+		if(istype(user.patron, /datum/patron/old_god))
+			user.add_stress(/datum/stressevent/psicross_worn)
+			ADD_TRAIT(user, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
+			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, MAGIC_TRAIT)
+
 
 /obj/item/clothing/neck/roguetown/psicross/dropped(mob/living/carbon/human/user)
 	. = ..()

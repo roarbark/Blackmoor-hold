@@ -41,7 +41,7 @@
 
 /datum/status_effect/elucidated
 	id = "elucidated"
-	alert_type = 
+	alert_type = /atom/movable/screen/alert/status_effect/elucidated
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 30 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/elucidated

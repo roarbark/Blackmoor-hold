@@ -44,7 +44,7 @@
 	id = "elucidated"
 	alert_type = /atom/movable/screen/alert/status_effect/elucidated
 	status_type = STATUS_EFFECT_UNIQUE
-	duration = 30 SECONDS
+	duration = 15 SECONDS
 
 /datum/status_effect/elucidated/on_apply()
 	owner.overlay_fullscreen("elucidated", /atom/movable/screen/fullscreen/psydon)

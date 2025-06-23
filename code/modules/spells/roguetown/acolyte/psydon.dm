@@ -2,6 +2,7 @@
 
 /obj/effect/proc_holder/spell/invoked/elucidate
 	name = "Elucidate"
+	overlay_state = "limb_attach"
 	desc = "The Agonizing Truth of the Martyr causes a temporary seizure of the senses."
 	recharge_time = 10 SECONDS
 	chargetime = 0 SECONDS

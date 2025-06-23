@@ -25,6 +25,10 @@
 	H.mind.adjust_skillrank(/datum/skill/misc/lockpicking, 5, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE)
 	H.mind.adjust_skillrank(/datum/skill/combat/crossbows, 4, TRUE)
+	if(should_wear_femme_clothes(H))
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
+	else
+		armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
@@ -34,7 +38,6 @@
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt/random
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	mask = /obj/item/clothing/mask/rogue/facemask/psydonmask

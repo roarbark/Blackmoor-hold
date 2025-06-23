@@ -1,5 +1,3 @@
-
-
 /datum/supply_pack/rogue/luxury
 	group = "Luxury"
 	crate_name = "merchant guild's crate"
@@ -88,3 +86,8 @@
 	name = "Emberwine"
 	cost = 160
 	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/emberwine)
+
+/datum/supply_pack/rogue/luxury/lovepotion
+	name = "Love Potion"
+	cost = 300
+	contains = list(/obj/item/lovepotion)

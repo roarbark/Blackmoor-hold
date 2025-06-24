@@ -48,8 +48,6 @@
 	devotion_cost = 50
 
 /obj/effect/proc_holder/spell/targeted/churn/cast(list/targets,mob/living/user = usr)
-	if(user.patron == /datum/patron/old_god)
-		invocation = "Psydon HATES you!"
 	var/prob2explode = 100
 	if(user && user.mind)
 		prob2explode = 0

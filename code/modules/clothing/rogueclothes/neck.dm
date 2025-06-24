@@ -274,7 +274,7 @@
 	if(slot == SLOT_NECK || slot == SLOT_WRISTS || slot == SLOT_BELT_R || slot == SLOT_BELT_L)
 		if(istype(user.patron, /datum/patron/old_god))
 			user.add_stress(/datum/stressevent/psicross_worn)
-			ADD_TRAIT(user, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
+			ADD_TRAIT(user, TRAIT_SILVER_BLESSED, MAGIC_TRAIT)
 			ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, MAGIC_TRAIT)
 
 
@@ -282,7 +282,7 @@
 	. = ..()
 	if(istype(user.patron, /datum/patron/old_god))
 		user.remove_stress(/datum/stressevent/psicross_worn)
-		REMOVE_TRAIT(user, TRAIT_ANTIMAGIC, MAGIC_TRAIT)
+		REMOVE_TRAIT(user, TRAIT_SILVER_BLESSED, MAGIC_TRAIT)
 		REMOVE_TRAIT(user,TRAIT_ZOMBIE_IMMUNE, MAGIC_TRAIT)
 	
 

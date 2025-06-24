@@ -58,3 +58,8 @@
 	name = "TRUTH"
 	desc = "No... IT CAN'T BE!"
 	icon_state = "stressvb"
+
+/obj/effect/proc_holder/spell/targeted/churn/psychurn
+	name = "Churn Undead"
+	overlay_state = "limb_attach"
+	invocation = "Psydon HATES you!"
